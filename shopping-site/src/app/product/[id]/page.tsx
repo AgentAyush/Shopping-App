@@ -48,7 +48,7 @@ export default function ProductDetail() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden md:flex md:gap-8 p-6">
 
           <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="relative w-full h-[400px] flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
+            <div className="relative w-full h-[400px] flex items-center justify-center bg-white rounded-lg overflow-hidden">
               <img
                 src={product.image}
                 alt={product.title}

@@ -20,16 +20,17 @@ export default function ProductCard({ product }: { product: Product }) {
         <img
           src={product.image}
           alt={product.title}
-          className="h-40 w-full object-cover rounded"
+          className="h-40 w-full object-contain rounded bg-white"
+
         />
-        <h3 className="mt-2 font-semibold">{product.title}</h3>
-        <p className="text-gray-600">${product.price}</p>
+        <h3 className="mt-2 font-semibold text-black">{product.title}</h3>
+        <p className="text-black">${product.price}</p>
       </Link>
       <button
         onClick={() =>
-          dispatch(addToCart({ ...product, quantity: 1 }))
+          dispatch(addToCart({ ...product, id: String(product.id), quantity: 1 }))
         }
-        className="bg-blue-600 text-white px-4 py-2 mt-2 rounded hover:bg-blue-700 w-full"
+        className="bg-[#0958a7] text-white px-4 py-2 mt-2 rounded hover:bg-[#002c60] w-full"
       >
         Add to Cart
       </button>

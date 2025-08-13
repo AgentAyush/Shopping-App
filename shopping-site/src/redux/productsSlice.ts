@@ -6,11 +6,15 @@ interface ProductsState {
   filtered: typeof products;
   category: string;
   search: string;
+  minPrice: number;
+  maxPrice: number;
 }
 
 const initialState: ProductsState = {
   items: products,
   filtered: products,
+  minPrice: 0,
+  maxPrice: 1000,
   category: "All",
   search: "",
 };
@@ -27,8 +31,14 @@ const productsSlice = createSlice({
       state.search = action.payload;
       applyFilters(state);
     },
+    setPriceRange: (state, action: PayloadAction<{ min: number; max: number }>) => {
+      state.minPrice = action.payload.min;
+      state.maxPrice = action.payload.max;
+      applyFilters(state);
+    },
   },
 });
+
 
 function applyFilters(state: ProductsState) {
   state.filtered = state.items.filter((p) => {
@@ -40,9 +50,11 @@ function applyFilters(state: ProductsState) {
       .toLowerCase()
       .includes(state.search.toLowerCase());
 
-    return matchesCategory && matchesSearch;
+    const matchesPrice = p.price >= state.minPrice && p.price <= state.maxPrice;
+
+    return matchesCategory && matchesSearch && matchesPrice;
   });
 }
 
-export const { setCategory, setSearch } = productsSlice.actions;
+export const { setCategory, setSearch, setPriceRange } = productsSlice.actions;
 export default productsSlice.reducer;

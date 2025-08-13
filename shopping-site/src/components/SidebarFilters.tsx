@@ -1,36 +1,44 @@
 "use client";
-import { useDispatch } from "react-redux";
-import { setCategory } from "@/redux/productsSlice";
+import { Range } from "react-range";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { setPriceRange } from "@/redux/productSlice";
 
 export default function SidebarFilters() {
   const dispatch = useDispatch();
+  const { minPrice, maxPrice } = useSelector((state: RootState) => state.products.priceRange);
 
   return (
-    <aside className="bg-blue-100 p-4 rounded-lg w-full sm:w-64">
-      <h2 className="font-bold mb-2">Filters</h2>
-
-
-      <div className="mb-6">
-        <h3 className="font-semibold">Category</h3>
-        <div className="flex flex-col gap-1 mt-2">
-          {["All", "Electronics", "Clothing", "Home"].map((cat) => (
-            <label key={cat} className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="category"
-                onChange={() => dispatch(setCategory(cat))}
-              />
-              {cat}
-            </label>
-          ))}
-        </div>
+    <div className="bg-blue-900 text-white p-4 rounded-lg w-full sm:w-64">
+      <h3 className="text-lg font-semibold mb-2">Price</h3>
+      <Range
+        step={10}
+        min={0}
+        max={1000}
+        values={[minPrice, maxPrice]}
+        onChange={(values) => {
+          dispatch(setPriceRange({ min: values[0], max: values[1] }));
+        }}
+        renderTrack={({ props, children }) => (
+          <div
+            {...props}
+            className="h-2 bg-gray-300 rounded"
+            style={{ ...props.style }}
+          >
+            {children}
+          </div>
+        )}
+        renderThumb={({ props }) => (
+          <div
+            {...props}
+            className="w-5 h-5 bg-white border border-gray-400 rounded-full cursor-pointer"
+          />
+        )}
+      />
+      <div className="flex justify-between mt-2 text-sm">
+        <span>{minPrice}</span>
+        <span>{maxPrice}</span>
       </div>
-
-
-      <div>
-        <h3 className="font-semibold">Price</h3>
-        <input type="range" min="0" max="1000" className="w-full mt-2" />
-      </div>
-    </aside>
+    </div>
   );
 }

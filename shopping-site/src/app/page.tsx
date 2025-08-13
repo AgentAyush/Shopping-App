@@ -4,6 +4,8 @@ import SidebarFilters from "@/components/SidebarFilters";
 import ProductCard from "@/components/ProductCard";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Footer from "@/components/Footer";
+
 
 export default function Home() {
   const products = useSelector((state: RootState) => state.products.filtered);
@@ -22,6 +24,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
